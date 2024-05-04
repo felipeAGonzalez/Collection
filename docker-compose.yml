@@ -1,0 +1,56 @@
+services:
+  db:
+    image: postgres
+    networks:
+      net_collection:
+        aliases:
+          - db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: collection
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  phppgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    links:
+      - "db:pgsql-server"
+    networks:
+      net_collection:
+  django:
+    tty: true
+    image: felipe89/collection-django
+    networks:
+      net_collection:
+    volumes:
+      - .:/collection
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - 8000:8000
+    environment:
+      - ENVIRONMENT=development
+    command: > 
+      sh -c 'python manage.py migrate 
+      && python manage.py runserver 0.0.0.0:8000'
+
+volumes:
+  db:
+  postgres_data:
+networks:
+  net_collection:
