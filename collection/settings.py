@@ -76,7 +76,7 @@ WSGI_APPLICATION = "collection.wsgi.application"
 DATABASES = {
      'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'driving',
+            'NAME': 'collection',
             'USER': 'postgres',
             'PASSWORD': 'root',
             'HOST': 'db',

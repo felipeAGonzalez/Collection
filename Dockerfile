@@ -1,6 +1,6 @@
 FROM python:3.9.16-alpine3.17
 
-WORKDIR /driving
+WORKDIR /collection
 
 RUN apk update \
     && apk add --no-cache gcc musl-dev mysql-dev postgresql-dev python3-dev libffi-dev git curl jq \

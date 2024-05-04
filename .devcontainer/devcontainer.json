@@ -2,7 +2,7 @@
     "name": "Django Docker",
     "dockerComposeFile": "../docker-compose.yml",
     "service": "django",
-    "workspaceFolder": "/driving",
+    "workspaceFolder": "/collection",
     "extensions": [
         "ms-python.python",
         "batisteo.vscode-django",
